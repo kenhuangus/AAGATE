@@ -1,6 +1,6 @@
 # AAGATE: Agentic AI Governance Assurance & Trust Engine
 
-AAGATE is a flagship project under the [OWASP AI Vulnerability and Security Framework (AIVSS)](https://aivss.owasp.org/), dedicated to providing a robust framework for the governance, assurance, and security of Agentic AI systems.
+AAGATE is a project under the [OWASP AI Vulnerability and Security Framework (AIVSS)](https://aivss.owasp.org/), dedicated to providing a robust framework for the governance, assurance, and security of Agentic AI systems.
 
 ## Abstract
 
@@ -81,7 +81,6 @@ Please ensure your code adheres to the project's coding standards and includes t
 ## License
 
 This project is licensed under the MIT License.
-
 ```
 MIT License
 
