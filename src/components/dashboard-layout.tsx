@@ -50,7 +50,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </Button>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
               <span className="text-lg font-semibold tracking-tight">AAGATE</span>
-              <span className="text-xs text-muted-foreground">by Firebase</span>
+              <span className="text-xs text-muted-foreground">by OWASP AIVSS Team</span>
             </div>
           </div>
         </SidebarHeader>
