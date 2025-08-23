@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, AlertTriangle, Wand2 } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 const formSchema = z.object({
   policyViolationDescription: z.string().min(10, "Please provide a detailed description."),
@@ -130,15 +131,15 @@ export default function ViolationAnalysisPage() {
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div>
-                            <FormLabel>Classification</FormLabel>
+                            <Label>Classification</Label>
                             <p className="font-semibold text-lg p-3 bg-muted rounded-md">{result.classification}</p>
                         </div>
                         <div>
-                            <FormLabel>Context (MAESTRO, AIVSS, etc.)</FormLabel>
+                            <Label>Context (MAESTRO, AIVSS, etc.)</Label>
                             <p className="text-sm text-muted-foreground p-3 bg-muted rounded-md whitespace-pre-wrap">{result.context}</p>
                         </div>
                         <div>
-                            <FormLabel>Suggested Remediations</FormLabel>
+                            <Label>Suggested Remediations</Label>
                             <div className="text-sm text-muted-foreground p-3 bg-muted rounded-md whitespace-pre-wrap">{result.suggestedRemediations}</div>
                         </div>
                     </CardContent>

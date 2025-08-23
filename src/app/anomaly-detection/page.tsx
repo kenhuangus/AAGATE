@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { Label } from "@/components/ui/label";
 
 const formSchema = z.object({
   agentId: z.string().min(1, "Agent ID is required."),
@@ -133,16 +134,16 @@ export default function AnomalyDetectionPage() {
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div>
-                            <FormLabel>Anomaly Score (0-100)</FormLabel>
+                            <Label>Anomaly Score (0-100)</Label>
                             <Progress value={result.anomalyScore} className="w-full mt-2 h-4" />
                             <p className="text-right font-bold text-lg mt-1">{result.anomalyScore}</p>
                         </div>
                         <div>
-                            <FormLabel>Explanation</FormLabel>
+                            <Label>Explanation</Label>
                             <p className="text-sm text-muted-foreground p-3 bg-muted rounded-md">{result.explanation}</p>
                         </div>
                         <div>
-                            <FormLabel>Suggested Remediation</FormLabel>
+                            <Label>Suggested Remediation</Label>
                             <p className="text-sm text-muted-foreground p-3 bg-muted rounded-md">{result.suggestedRemediation}</p>
                         </div>
                     </CardContent>
