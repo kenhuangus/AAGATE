@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aagate
+spec:
+  destination:
+    namespace: aagate
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: deploy/helm/aagate
+    repoURL: https://github.com/example/aagate
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
