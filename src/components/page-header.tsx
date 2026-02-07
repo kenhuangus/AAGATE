@@ -1,7 +1,9 @@
+import type { HTMLAttributes, ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
 
-interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+interface PageHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+  title: ReactNode;
   description?: string;
 }
 

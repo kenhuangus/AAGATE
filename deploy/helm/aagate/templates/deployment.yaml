@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aagate
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aagate
+  template:
+    metadata:
+      labels:
+        app: aagate
+    spec:
+      containers:
+        - name: aagate
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GOVERNANCE_POLICY_SIGNING_KEY
+              value: "{{ .Values.env.governancePolicySigningKey }}"
+            - name: TOOL_GATEWAY_ALLOWLIST
+              value: "{{ .Values.env.toolGatewayAllowlist }}"
+            - name: KAFKA_REST_PROXY_URL
+              value: "{{ .Values.env.kafkaRestProxyUrl }}"

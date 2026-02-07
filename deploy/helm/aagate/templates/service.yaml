@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aagate
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: aagate
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 3000
+      protocol: TCP
+      name: http

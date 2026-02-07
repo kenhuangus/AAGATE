@@ -1,0 +1,13 @@
+image:
+  repository: ghcr.io/example/aagate
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+env:
+  governancePolicySigningKey: dev-governance-key
+  toolGatewayAllowlist: ""
+  kafkaRestProxyUrl: ""

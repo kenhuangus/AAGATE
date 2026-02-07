@@ -14,6 +14,16 @@ This project is built on a modern, scalable web stack, designed for performance 
 -   **AI/Backend**: AI capabilities are powered by **Google's Genkit**, which orchestrates interactions with generative models like Gemini. Genkit flows are defined in the `src/ai/flows/` directory and are exposed to the frontend via Next.js Server Actions.
 -   **Data**: The current version uses mock data located in `src/lib/mock-data.ts` to simulate a real-world environment with multiple AI agents and policies.
 
+Additional documentation:
+-   `docs/architecture-overview.md` explains the current dashboard MVP scope vs. the target control plane described in the AAGATE paper.
+-   `docs/event-schemas.md` defines draft event schemas to connect the UI with future control plane services.
+
+Control-plane demo APIs (local):
+-   `POST /api/tool-gateway` for policy-enforced egress requests.
+-   `GET/POST/DELETE /api/ans` for agent registration and identity issuance.
+-   `POST /api/risk/score` and `POST /api/risk/decision` for AIVSS + SSVC evaluation.
+-   `POST /api/janus` for shadow-monitor evaluation and kill switch enforcement.
+
 ## Features
 
 AAGATE provides a suite of tools to monitor and govern your AI agents. The dashboard is organized into several key sections:

@@ -1,0 +1,37 @@
+import { NextResponse } from "next/server";
+
+import {
+  listAgents,
+  registerAgent,
+  resetAgents,
+  revokeAgent,
+  type AgentRegistration,
+} from "@/lib/agent-registry";
+
+export async function GET() {
+  const agents = await listAgents();
+  return NextResponse.json({ agents });
+}
+
+export async function POST(request: Request) {
+  const payload = (await request.json()) as AgentRegistration;
+
+  if (!payload?.id || !payload?.name || !payload?.publicKey) {
+    return NextResponse.json({ error: "Invalid registration" }, { status: 400 });
+  }
+
+  const record = await registerAgent(payload);
+  return NextResponse.json({ record }, { status: 201 });
+}
+
+export async function DELETE(request: Request) {
+  const payload = (await request.json()) as { agentId?: string };
+
+  if (payload?.agentId) {
+    await revokeAgent(payload.agentId);
+    return NextResponse.json({ status: "revoked" });
+  }
+
+  await resetAgents();
+  return NextResponse.json({ status: "reset" });
+}

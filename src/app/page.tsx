@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { agents } from "@/lib/mock-data";
+import { getGovernanceEvents } from "@/lib/governance-store";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,6 +23,19 @@ const getRiskIcon = (score: number) => {
   return <ShieldAlert className="w-5 h-5 text-red-500" />;
 };
 
+const getSeverityBadge = (severity: "Low" | "Medium" | "High" | "Critical") => {
+  switch (severity) {
+    case "Low":
+      return <Badge variant="outline" className="border-emerald-500 text-emerald-500">Low</Badge>;
+    case "Medium":
+      return <Badge variant="outline" className="border-yellow-500 text-yellow-500">Medium</Badge>;
+    case "High":
+      return <Badge variant="outline" className="border-orange-500 text-orange-500">High</Badge>;
+    case "Critical":
+      return <Badge variant="outline" className="border-red-500 text-red-500">Critical</Badge>;
+  }
+};
+
 const aggregateRiskHistory = () => {
   const history: { [date: string]: { total: number; count: number } } = {};
   agents.forEach(agent => {
@@ -40,8 +54,9 @@ const aggregateRiskHistory = () => {
   })).sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   const overallRiskHistory = aggregateRiskHistory();
+  const governanceEvents = await getGovernanceEvents();
 
   return (
     <>
@@ -106,6 +121,37 @@ export default function DashboardPage() {
                         {agent.model}
                       </Link>
                     </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Governance Events</CardTitle>
+            <CardDescription>Latest signals emitted by the control plane (draft schemas).</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Event</TableHead>
+                  <TableHead>Agent</TableHead>
+                  <TableHead>Summary</TableHead>
+                  <TableHead className="text-right">Severity</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {governanceEvents.map(event => (
+                  <TableRow key={event.eventId}>
+                    <TableCell>
+                      <div className="font-medium">{event.eventType}</div>
+                      <div className="text-xs text-muted-foreground">{new Date(event.timestamp).toLocaleString()}</div>
+                    </TableCell>
+                    <TableCell>{event.agentId ?? "—"}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{event.summary}</TableCell>
+                    <TableCell className="text-right">{getSeverityBadge(event.severity)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
