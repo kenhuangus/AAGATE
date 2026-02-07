@@ -9,6 +9,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export default async function PoliciesPage() {
   const auditLog = await listPolicyAudit();
+import { PageHeader } from "@/components/page-header";
+import { PoliciesManager } from "@/components/policies-manager";
+import { getPolicies } from "@/lib/data-store";
+
+export default async function PoliciesPage() {
+  const policies = await getPolicies();
 
   return (
     <>
@@ -84,6 +90,8 @@ export default async function PoliciesPage() {
           </CardContent>
         </Card>
       </div>
+      />
+      <PoliciesManager policies={policies} />
     </>
   );
 }

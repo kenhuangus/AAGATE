@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { agents } from "@/lib/mock-data";
 import { getGovernanceEvents } from "@/lib/governance-store";
+import { getAgents } from "@/lib/data-store";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,6 +38,7 @@ const getSeverityBadge = (severity: "Low" | "Medium" | "High" | "Critical") => {
 };
 
 const aggregateRiskHistory = () => {
+const aggregateRiskHistory = (agents: Awaited<ReturnType<typeof getAgents>>) => {
   const history: { [date: string]: { total: number; count: number } } = {};
   agents.forEach(agent => {
     agent.riskHistory.forEach(h => {
@@ -57,6 +59,8 @@ const aggregateRiskHistory = () => {
 export default async function DashboardPage() {
   const overallRiskHistory = aggregateRiskHistory();
   const governanceEvents = await getGovernanceEvents();
+  const agents = await getAgents();
+  const overallRiskHistory = aggregateRiskHistory(agents);
 
   return (
     <>
