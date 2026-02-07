@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { agents } from "@/lib/mock-data";
+import { getAgents } from "@/lib/data-store";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,7 +22,7 @@ const getRiskIcon = (score: number) => {
   return <ShieldAlert className="w-5 h-5 text-red-500" />;
 };
 
-const aggregateRiskHistory = () => {
+const aggregateRiskHistory = (agents: Awaited<ReturnType<typeof getAgents>>) => {
   const history: { [date: string]: { total: number; count: number } } = {};
   agents.forEach(agent => {
     agent.riskHistory.forEach(h => {
@@ -40,8 +40,9 @@ const aggregateRiskHistory = () => {
   })).sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 };
 
-export default function DashboardPage() {
-  const overallRiskHistory = aggregateRiskHistory();
+export default async function DashboardPage() {
+  const agents = await getAgents();
+  const overallRiskHistory = aggregateRiskHistory(agents);
 
   return (
     <>
