@@ -16,6 +16,8 @@ export default async function AgentDetailPage({
 }) {
   const { id } = await params;
   const agent = await getTelemetryAgentById(id);
+export default async function AgentDetailPage({ params }: { params: { id: string } }) {
+  const agent = await getTelemetryAgentById(params.id);
 
   if (!agent) {
     notFound();
