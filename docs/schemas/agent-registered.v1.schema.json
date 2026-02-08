@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aagate.dev/schemas/agent-registered.v1.schema.json",
+  "title": "Agent Registered Event",
+  "type": "object",
+  "required": ["eventType", "eventId", "timestamp", "agent"],
+  "properties": {
+    "eventType": { "const": "agent.registered" },
+    "eventId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "agent": {
+      "type": "object",
+      "required": ["id", "name", "type", "model", "version"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "model": { "type": "string" },
+        "version": { "type": "string" },
+        "riskTier": { "type": "string" },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "did": { "type": "string" },
+            "vcHash": { "type": "string" },
+            "spiffeId": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": { "type": "string" },
+        "correlationId": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

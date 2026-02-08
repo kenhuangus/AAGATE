@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aagate.dev/schemas/agent-anomaly-detected.v1.schema.json",
+  "title": "Agent Anomaly Detected Event",
+  "type": "object",
+  "required": ["eventType", "eventId", "timestamp", "agentId", "anomaly"],
+  "properties": {
+    "eventType": { "const": "agent.anomaly.detected" },
+    "eventId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "agentId": { "type": "string" },
+    "anomaly": {
+      "type": "object",
+      "required": ["isAnomalous", "score", "signals", "explanation"],
+      "properties": {
+        "isAnomalous": { "type": "boolean" },
+        "score": { "type": "number" },
+        "signals": { "type": "array", "items": { "type": "string" } },
+        "explanation": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "risk": {
+      "type": "object",
+      "properties": {
+        "aivssVector": { "type": "string" },
+        "aivssScore": { "type": "number" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
