@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aagate.dev/schemas/containment-executed.v1.schema.json",
+  "title": "Containment Executed Event",
+  "type": "object",
+  "required": ["eventType", "eventId", "timestamp", "agentId", "action"],
+  "properties": {
+    "eventType": { "const": "containment.executed" },
+    "eventId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "agentId": { "type": "string" },
+    "action": {
+      "type": "object",
+      "required": ["type", "details", "initiator"],
+      "properties": {
+        "type": { "type": "string" },
+        "details": { "type": "string" },
+        "initiator": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "reason": {
+      "type": "object",
+      "properties": {
+        "trigger": { "type": "string" },
+        "ssvcDecision": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

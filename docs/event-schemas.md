@@ -1,6 +1,14 @@
-# AAGATE Event Schemas (Draft v1)
+# AAGATE Event Schemas (Locked v1)
 
 These schemas define the minimal contract between the dashboard UI and the future control plane services. They are **implementation-agnostic** and can be mapped to Kafka topics, HTTP APIs, or a logging pipeline.
+
+## Versioned JSON Schemas (v1)
+The v1 contracts are now locked and published as JSON Schema files in `docs/schemas/`:
+- `agent-registered.v1.schema.json`
+- `tool-invocation.v1.schema.json`
+- `agent-anomaly-detected.v1.schema.json`
+- `policy-violation.v1.schema.json`
+- `containment-executed.v1.schema.json`
 
 ## Reference API (local demo)
 The dashboard now includes a lightweight Next.js API route for demo purposes:
