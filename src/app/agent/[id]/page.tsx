@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { agents, policies as allPolicies } from "@/lib/mock-data";
+import { getAgentById, getPolicies } from "@/lib/data-store";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,14 +8,15 @@ import { PageHeader } from "@/components/page-header";
 import { RiskScoreChart } from "@/components/risk-score-chart";
 import { Bot } from "lucide-react";
 
-export default function AgentDetailPage({ params }: { params: { id: string } }) {
-  const agent = agents.find((a) => a.id === params.id);
+export default async function AgentDetailPage({ params }: { params: { id: string } }) {
+  const agent = await getAgentById(params.id);
 
   if (!agent) {
     notFound();
   }
 
-  const agentPolicies = allPolicies.filter(p => agent.policies.includes(p.id));
+  const policies = await getPolicies();
+  const agentPolicies = policies.filter((policy) => agent.policies.includes(policy.id));
 
   return (
     <>

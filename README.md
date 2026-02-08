@@ -47,6 +47,10 @@ To run this project locally, follow these steps:
     ```
     GEMINI_API_KEY=your_google_ai_api_key_here
     ```
+    Optionally, override the datastore path for persisted agents and policies:
+    ```
+    DATA_STORE_PATH=/absolute/path/to/data-store.json
+    ```
 
 3.  **Run the Development Server**:
     The application and the Genkit development server run concurrently.
