@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aagate.dev/schemas/tool-invocation.v1.schema.json",
+  "title": "Tool Invocation Event",
+  "type": "object",
+  "required": ["eventType", "eventId", "timestamp", "agentId", "tool"],
+  "properties": {
+    "eventType": { "const": "tool.invocation" },
+    "eventId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "agentId": { "type": "string" },
+    "tool": {
+      "type": "object",
+      "required": ["name", "target"],
+      "properties": {
+        "name": { "type": "string" },
+        "target": { "type": "string" },
+        "method": { "type": "string" },
+        "purpose": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "decision": { "type": "string" },
+        "policyIds": { "type": "array", "items": { "type": "string" } },
+        "regoBundleHash": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "risk": {
+      "type": "object",
+      "properties": {
+        "aivssScore": { "type": "number" },
+        "ssvcDecision": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "requestHash": { "type": "string" },
+        "responseHash": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aagate.dev/schemas/policy-violation.v1.schema.json",
+  "title": "Policy Violation Event",
+  "type": "object",
+  "required": ["eventType", "eventId", "timestamp", "agentId", "policy"],
+  "properties": {
+    "eventType": { "const": "policy.violation" },
+    "eventId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "agentId": { "type": "string" },
+    "policy": {
+      "type": "object",
+      "required": ["id", "name", "decision"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "decision": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "logRefs": { "type": "array", "items": { "type": "string" } },
+        "summary": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "risk": {
+      "type": "object",
+      "properties": {
+        "aivssScore": { "type": "number" },
+        "ssvcDecision": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

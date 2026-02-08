@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { getAgentById, getPolicies } from "@/lib/data-store";
+import { getPolicies } from "@/lib/data-store";
+import { getTelemetryAgentById } from "@/lib/telemetry-agent-store";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,8 +9,13 @@ import { PageHeader } from "@/components/page-header";
 import { RiskScoreChart } from "@/components/risk-score-chart";
 import { Bot } from "lucide-react";
 
-export default async function AgentDetailPage({ params }: { params: { id: string } }) {
-  const agent = await getAgentById(params.id);
+export default async function AgentDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const agent = await getTelemetryAgentById(id);
 
   if (!agent) {
     notFound();
