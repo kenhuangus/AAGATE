@@ -9,6 +9,13 @@ import { PageHeader } from "@/components/page-header";
 import { RiskScoreChart } from "@/components/risk-score-chart";
 import { Bot } from "lucide-react";
 
+export default async function AgentDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const agent = await getTelemetryAgentById(id);
 export default async function AgentDetailPage({ params }: { params: { id: string } }) {
   const agent = await getTelemetryAgentById(params.id);
 
