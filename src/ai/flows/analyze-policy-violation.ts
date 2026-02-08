@@ -7,8 +7,9 @@
  * - AnalyzePolicyViolationOutput - The return type for the analyzePolicyViolation function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { z } from "genkit";
+
+import { classifyPolicyViolation } from "@/lib/telemetry-scoring";
 
 const AnalyzePolicyViolationInputSchema = z.object({
   policyViolationDescription: z
@@ -36,32 +37,5 @@ export type AnalyzePolicyViolationOutput = z.infer<
 export async function analyzePolicyViolation(
   input: AnalyzePolicyViolationInput
 ): Promise<AnalyzePolicyViolationOutput> {
-  return analyzePolicyViolationFlow(input);
+  return classifyPolicyViolation(input.policyViolationDescription, input.securityLogs);
 }
-
-const prompt = ai.definePrompt({
-  name: 'analyzePolicyViolationPrompt',
-  input: {schema: AnalyzePolicyViolationInputSchema},
-  output: {schema: AnalyzePolicyViolationOutputSchema},
-  prompt: `You are a security expert specializing in classifying policy violations and suggesting remediations.
-
-  Analyze the following policy violation description and security logs to classify the violation, provide context using MAESTRO, AIVSS, SEI SSVC, and the CSA Red Teaming Guide, and suggest remediations.
-
-  Policy Violation Description: {{{policyViolationDescription}}}
-  Security Logs: {{{securityLogs}}}
-
-  Respond with the classification, context, and suggested remediations.
-  `,
-});
-
-const analyzePolicyViolationFlow = ai.defineFlow(
-  {
-    name: 'analyzePolicyViolationFlow',
-    inputSchema: AnalyzePolicyViolationInputSchema,
-    outputSchema: AnalyzePolicyViolationOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);

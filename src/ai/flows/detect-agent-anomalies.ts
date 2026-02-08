@@ -7,8 +7,9 @@
  * - DetectAgentAnomaliesOutput - The return type for the detectAgentAnomalies function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { z } from "genkit";
+
+import { scoreAnomalySignals } from "@/lib/telemetry-scoring";
 
 const DetectAgentAnomaliesInputSchema = z.object({
   agentId: z.string().describe('The ID of the agent to analyze.'),
@@ -24,35 +25,14 @@ const DetectAgentAnomaliesOutputSchema = z.object({
 });
 export type DetectAgentAnomaliesOutput = z.infer<typeof DetectAgentAnomaliesOutputSchema>;
 
-export async function detectAgentAnomalies(input: DetectAgentAnomaliesInput): Promise<DetectAgentAnomaliesOutput> {
-  return detectAgentAnomaliesFlow(input);
+export async function detectAgentAnomalies(
+  input: DetectAgentAnomaliesInput
+): Promise<DetectAgentAnomaliesOutput> {
+  const scored = scoreAnomalySignals(input.securitySignals);
+  return {
+    isAnomalous: scored.isAnomalous,
+    anomalyScore: scored.score,
+    explanation: scored.explanation,
+    suggestedRemediation: scored.suggestedRemediation,
+  };
 }
-
-const prompt = ai.definePrompt({
-  name: 'detectAgentAnomaliesPrompt',
-  input: {schema: DetectAgentAnomaliesInputSchema},
-  output: {schema: DetectAgentAnomaliesOutputSchema},
-  prompt: `You are a security expert tasked with detecting anomalous behavior in AI agents.
-
-  Analyze the following security signals for agent ID {{{agentId}}} and determine if the agent's behavior is anomalous.
-
-  Security Signals:
-  {{#each securitySignals}}- {{{this}}}
-  {{/each}}
-
-  Based on these signals, determine the isAnomalous boolean, provide an anomalyScore (0-100), an explanation for your determination, and suggest a remediation.
-
-  Ensure that the output can be parsed as valid JSON.`,
-});
-
-const detectAgentAnomaliesFlow = ai.defineFlow(
-  {
-    name: 'detectAgentAnomaliesFlow',
-    inputSchema: DetectAgentAnomaliesInputSchema,
-    outputSchema: DetectAgentAnomaliesOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);
