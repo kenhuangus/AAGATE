@@ -86,7 +86,6 @@ export async function getTelemetryAgentById(agentId: string): Promise<Agent | un
   ]);
 
   let seed: AgentSeed | undefined = baseAgent;
-  let seed = baseAgent;
   if (!seed) {
     const registration = telemetryEvents.find((event) => {
       if (event.eventType !== "agent.registered") {
@@ -98,7 +97,6 @@ export async function getTelemetryAgentById(agentId: string): Promise<Agent | un
     });
     if (registration) {
       seed = buildAgentSeedFromRegistration(registration.payload) ?? undefined;
-      seed = buildAgentSeedFromRegistration(registration.payload) as Agent | null;
     }
   }
 
